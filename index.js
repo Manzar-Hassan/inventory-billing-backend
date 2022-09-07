@@ -72,7 +72,7 @@ app.post("/signup", async (request, response) => {
     });
 
     result.acknowledged
-      ? response.send({ msg: "Account created successfully!!" })
+      ? response.status(200).send({ msg: "Account created successfully!!" })
       : response.send({ msg: "Username already exists!!" });
   }
 });
