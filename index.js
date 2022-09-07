@@ -102,7 +102,7 @@ app.post("/login", async (request, response) => {
   }
 });
 
-// bill endpoints:
+// bill endpoints
 app.post("/bill", async (request, response) => {
   const data = request.body;
   const result = await client
