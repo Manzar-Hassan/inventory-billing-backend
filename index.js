@@ -54,7 +54,7 @@ async function checkUser(username) {
     .findOne({ username });
 }
 
-app.post("/signup", async (request, response) => {
+app.post("/register", async (request, response) => {
   const { username, password } = request.body;
   const isUserExist = await checkUser(username);
 
