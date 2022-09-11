@@ -66,7 +66,7 @@ app.post("/register", async (request, response) => {
   } else if (password.length < 8) {
     response
       .status(400)
-      .send({ msg: "password must be more than 8 characters!!" });
+      .send({ msg: "password must be more than or equal to 8 characters!!" });
     return;
   } else {
     const hashedPassword = await getHashedPassword(password);
