@@ -59,21 +59,24 @@ app.post("/register", async (request, response) => {
   const isUserExist = await checkUser(username);
 
   if (isUserExist) {
-    response.send({ msg: "user already exists!!" });
+    response.status(400).send({ msg: "user already exists!!" });
+    return;
   } else if (password.length < 8) {
-    response.send({ msg: "password must be more than 8 characters!!" });
-  } else if (username.length < 5) {
-    response.send({ msg: "username must be more than 4 characters long!!" });
+    response
+      .status(400)
+      .send({ msg: "password must be more than 8 characters!!" });
+    return;
   } else {
     const hashedPassword = await getHashedPassword(password);
-    const result = await client.db("inventory-billing").collection("users").insertOne({
-      username,
-      password: hashedPassword,
-    });
+    const result = await client
+      .db("inventory-billing")
+      .collection("users")
+      .insertOne({
+        username,
+        password: hashedPassword,
+      });
 
-    result.acknowledged
-      ? response.status(200).send({ msg: "Account created successfully!!" })
-      : response.send({ msg: "Username already exists!!" });
+    response.status(200).send({ msg: "Account created successfully!!" });
   }
 });
 
