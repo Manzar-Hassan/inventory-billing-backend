@@ -47,6 +47,7 @@ async function getHashedPassword(password) {
   return hashedPassword;
 }
 
+//checking if user already exists in database
 async function checkUser(username) {
   return await client
     .db("inventory-billing")
@@ -54,6 +55,7 @@ async function checkUser(username) {
     .findOne({ username });
 }
 
+//endpoint to register a new user
 app.post("/register", async (request, response) => {
   const { username, password } = request.body;
   const isUserExist = await checkUser(username);
@@ -80,6 +82,7 @@ app.post("/register", async (request, response) => {
   }
 });
 
+//endpoint to login an existing user
 app.post("/login", async (request, response) => {
   const { username, password } = request.body;
   const isUserExist = await checkUser(username);
@@ -89,6 +92,7 @@ app.post("/login", async (request, response) => {
       response
         .status(204)
         .send({ msg: "password must be more than 8 characters!!" });
+      return;
     } else {
       const storedPassword = isUserExist.password;
       const isPasswordMatch = await bcrypt.compare(password, storedPassword);
@@ -96,12 +100,14 @@ app.post("/login", async (request, response) => {
       if (isPasswordMatch) {
         const token = jwt.sign({ id: isUserExist._id }, process.env.SECRET_KEY);
         response.status(200).send({ msg: "login successful!!" });
+        return;
       } else {
-        response.status(204).send({ msg: "Incorrect credentials!!" });
+        response.status(400).send({ msg: "Incorrect credentials!!" });
+        return;
       }
     }
   } else {
-    response.status(204).send({ msg: "please sign up!!" });
+    response.status(400).send({ msg: "please sign up!!" });
   }
 });
 
