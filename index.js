@@ -6,7 +6,6 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import handlebars from "handlebars";
-import fs from "fs";
 
 dotenv.config();
 
@@ -61,11 +60,11 @@ app.post("/register", async (request, response) => {
   const isUserExist = await checkUser(username);
 
   if (isUserExist) {
-    response.status(400).send({ msg: "user already exists!!" });
+    response.status(201).send({ msg: "user already exists!!" });
     return;
   } else if (password.length < 8) {
     response
-      .status(400)
+      .status(201)
       .send({ msg: "password must be more than or equal to 8 characters!!" });
     return;
   } else {
@@ -90,7 +89,7 @@ app.post("/login", async (request, response) => {
   if (isUserExist) {
     if (password.length < 8) {
       response
-        .status(400)
+        .status(201)
         .send({ msg: "password must be more than or equal to 8 characters!!" });
       return;
     } else {
@@ -102,12 +101,12 @@ app.post("/login", async (request, response) => {
         response.status(200).send({ msg: "login successful!!" });
         return;
       } else {
-        response.status(400).send({ msg: "Incorrect credentials!!" });
+        response.status(201).send({ msg: "Incorrect credentials!!" });
         return;
       }
     }
   } else {
-    response.status(400).send({ msg: "User doesn't exist!!" });
+    response.status(201).send({ msg: "User doesn't exist!!" });
   }
 });
 
@@ -139,7 +138,7 @@ app.get("/sales", async (request, response) => {
 });
 
 //update items
-app.put("/updateStocks/:itemName", async (request, response) => {
+app.post("/updateStocks/:itemName", async (request, response) => {
   const { itemName } = request.params;
   const data = request.body;
   const result = await client
