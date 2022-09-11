@@ -107,7 +107,7 @@ app.post("/login", async (request, response) => {
       }
     }
   } else {
-    response.status(400).send({ msg: "please sign up!!" });
+    response.status(400).send({ msg: "User doesn't exist!!" });
   }
 });
 
