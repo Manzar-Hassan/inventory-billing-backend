@@ -121,7 +121,7 @@ app.post("/bill", async (request, response) => {
   result.acknowledged
     ? response
         .status(200)
-        .send({ msg: "Please wait while your Invoice is being prepared!!" })
+        .send({ msg: "Purchase sucessfull!!" })
     : response.status(404).send({ msg: "Something went wrong !!" });
 });
 
