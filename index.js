@@ -130,7 +130,7 @@ app.get("/getBillRecords", async (req, res) => {
     .collection("bill")
     .find({});
 
-  console.log(result)
+  res.send(result)
 });
 
 // sales endpoints:
