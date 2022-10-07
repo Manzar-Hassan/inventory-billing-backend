@@ -128,9 +128,10 @@ app.get("/getBillRecords", async (req, res) => {
   const result = await client
     .db("inventory-billing")
     .collection("bill")
-    .find({});
+    .find(req.query)
+    .toArray();
 
-  res.send(result)
+  res.send(result);
 });
 
 // sales endpoints:
