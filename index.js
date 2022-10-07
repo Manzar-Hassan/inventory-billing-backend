@@ -119,10 +119,18 @@ app.post("/bill", async (request, response) => {
     .insertOne(data);
 
   result.acknowledged
-    ? response
-        .status(200)
-        .send({ msg: "Purchase sucessfull!!" })
+    ? response.status(200).send({ msg: "Purchase sucessfull!!" })
     : response.status(404).send({ msg: "Something went wrong !!" });
+});
+
+//getting all saved records
+app.get("/getBillRecords", async (req, res) => {
+  const result = await client
+    .db("inventory-billing")
+    .collection("bill")
+    .find({});
+
+  console.log(result)
 });
 
 // sales endpoints:
